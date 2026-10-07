@@ -1,0 +1,112 @@
+{
+  "entities": {
+    "Enquiry": {
+      "title": "Enquiry",
+      "description": "Project consultation enquiry submitted by a patron",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Patron full name",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Patron email address",
+          "maxLength": 120
+        },
+        "organization": {
+          "type": "string",
+          "description": "Organization or family name",
+          "maxLength": 120
+        },
+        "iloiloLocation": {
+          "type": "string",
+          "description": "District or municipality in Iloilo",
+          "maxLength": 100
+        },
+        "typology": {
+          "type": "string",
+          "description": "Project typology",
+          "maxLength": 100
+        },
+        "budget": {
+          "type": "string",
+          "description": "Target investment bracket",
+          "maxLength": 100
+        },
+        "notes": {
+          "type": "string",
+          "description": "Briefing notes or site details",
+          "maxLength": 2000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp of creation"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "in_review", "consulted", "archived"],
+          "description": "Review status by studio principals"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Optional UID of authenticated patron"
+        }
+      },
+      "required": ["name", "email", "iloiloLocation", "typology", "budget", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile in the studio portal",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name"
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Avatar photo URL"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "client"],
+          "description": "User authorization role"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO creation timestamp"
+        }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/enquiries/{enquiryId}": {
+      "schema": {
+        "$ref": "#/entities/Enquiry"
+      },
+      "description": "Collection of incoming architectural and interior consultation briefs"
+    },
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "User profile documents"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500" fill="none">
+  <!-- Exact Black IB Monogram on Transparent Background -->
+  <g fill="#000000">
+    <!-- Left serif stem of the I -->
+    <path d="
+      M 150 130
+      C 158 130, 175 142, 175 170
+      L 175 360
+      C 175 388, 158 400, 150 400
+      L 182 400
+      C 182 390, 180 370, 178 355
+      L 178 175
+      C 180 160, 182 140, 182 130
+      Z
+    " />
+
+    <!-- Inner vertical tapered needle/stem and diagonal cross-stroke -->
+    <path d="
+      M 190 400
+      C 190 380, 196 330, 196 240
+      L 196 153
+      L 202 153
+      L 358 352
+      C 358 352, 342 368, 320 372
+      L 203 218
+      L 203 390
+      C 203 398, 208 400, 218 400
+      Z
+    " />
+
+    <!-- The top horizontal cap and upper lobe with calligraphic finial -->
+    <path d="
+      M 150 130
+      L 315 130
+      C 348 130, 368 152, 368 185
+      C 368 220, 340 248, 292 248
+      C 294 242, 302 232, 314 220
+      C 334 200, 345 180, 345 165
+      C 345 145, 330 136, 305 136
+      L 175 136
+      L 150 130
+      Z
+    " />
+
+    <!-- The expansive lower lobe and bottom baseline -->
+    <path d="
+      M 292 248
+      C 330 270, 376 312, 376 348
+      C 376 385, 342 400, 280 400
+      L 150 400
+      L 150 394
+      L 280 394
+      C 330 394, 355 382, 355 350
+      C 355 320, 315 285, 275 260
+      Z
+    " />
+  </g>
+</svg>

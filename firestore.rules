@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isStudioAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'ib.designsph@gmail.com' ||
+        request.auth.token.email == 'delima0129@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidEnquiry(data) {
+      return data.keys().hasAll(['name', 'email', 'iloiloLocation', 'typology', 'budget', 'createdAt'])
+        && data.keys().hasOnly(['name', 'email', 'organization', 'iloiloLocation', 'typology', 'budget', 'notes', 'createdAt', 'status', 'userId'])
+        && data.name is string && data.name.size() >= 2 && data.name.size() <= 100
+        && data.email is string && data.email.size() <= 120 && data.email.matches('^.+@.+\\..+$')
+        && data.iloiloLocation is string && data.iloiloLocation.size() <= 100
+        && data.typology is string && data.typology.size() <= 100
+        && data.budget is string && data.budget.size() <= 100
+        && data.createdAt is string && data.createdAt.size() <= 50
+        && (!('notes' in data) || (data.notes is string && data.notes.size() <= 3000))
+        && (!('organization' in data) || (data.organization is string && data.organization.size() <= 120))
+        && (!('status' in data) || (data.status in ['pending', 'in_review', 'consulted', 'archived']))
+        && (!('userId' in data) || (data.userId is string && data.userId.size() <= 128));
+    }
+
+    match /enquiries/{enquiryId} {
+      allow get: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid || isStudioAdmin()
+      );
+      allow list: if isAuthenticated();
+      allow create: if isValidId(enquiryId) && isValidEnquiry(request.resource.data) && (
+        !('userId' in request.resource.data) ||
+        (isAuthenticated() && request.resource.data.userId == request.auth.uid)
+      );
+      allow update: if isValidId(enquiryId) && (
+        isStudioAdmin() ||
+        (isAuthenticated() && resource.data.userId == request.auth.uid && isValidEnquiry(request.resource.data))
+      );
+      allow delete: if isValidId(enquiryId) && isStudioAdmin();
+    }
+
+    match /users/{userId} {
+      allow get: if isAuthenticated();
+      allow list: if isStudioAdmin();
+      allow create, update: if isValidId(userId) && isOwner(userId);
+      allow delete: if isValidId(userId) && isStudioAdmin();
+    }
+
+    // Health check test connection path
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --color-olive: #47543c;
+  --color-olive-dark: #2a3324;
+  --color-olive-deep: #1d2319;
+  --color-olive-light: #5f6e52;
+  --color-olive-pale: #eaeee5;
+  --color-olive-wash: #f3f5ee;
+  --color-hairline: #d8ded2;
+}
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: #1e241b;
+    background-color: #faf9f5;
+  }
+
+  h1, h2, h3, .font-display, .font-serif {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -0.015em;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  ::selection {
+    background-color: #47543c;
+    color: #faf9f5;
+  }
+}
+
+.font-editorial {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-garamond {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Custom architectural hairline rules */
+.border-hairline {
+  border-color: rgba(71, 84, 60, 0.12);
+}
+
+.border-hairline-light {
+  border-color: rgba(255, 255, 255, 0.15);
+}
